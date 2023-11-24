@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { userServices } from './user.service';
 import joiUserSchema from './user.validationWithJoi';
 
+// createuser function
 const createUser = async (req: Request, res: Response) => {
   try {
     const value = await joiUserSchema.validateAsync(req.body);
@@ -24,7 +25,7 @@ const createUser = async (req: Request, res: Response) => {
     //? response error send ⤴
   }
 };
-
+// getAllusers function
 const getAllUsers = async (req: Request, res: Response) => {
   try {
     const result = await userServices.getAllUsersIntoDB();
@@ -45,7 +46,7 @@ const getAllUsers = async (req: Request, res: Response) => {
     //? response error send ⤴
   }
 };
-
+// getSingleUser function
 const getSingleUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -71,7 +72,7 @@ const getSingleUser = async (req: Request, res: Response) => {
     //? response error send ⤴
   }
 };
-
+// updateUser function
 const updateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -97,7 +98,7 @@ const updateUser = async (req: Request, res: Response) => {
     //? response error send ⤴
   }
 };
-
+// deleteUser function
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;

@@ -54,13 +54,11 @@ userSchema.statics.passwordHashing = async function (data) {
   return newData;
 };
 userSchema.statics.findUserByUserId = async function (userId) {
-  const result = await this.findOne({ userId });
+  const queryFieldFilter = '-_id -password -orders';
+  const result = await userSchemaModel
+    .findOne({ userId })
+    .select(queryFieldFilter);
   if (!result) throw new Error('User not found!');
-  return result;
-};
-userSchema.statics.updateUserByUserId = async function (userId, updateData) {
-  const result = await this.updateOne({ userId }, updateData);
-  console.log(result);
   return result;
 };
 userSchema.statics.isUserExist = async function (userId) {

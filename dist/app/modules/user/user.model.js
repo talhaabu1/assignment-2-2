@@ -59,16 +59,12 @@ userSchema.statics.passwordHashing = function (data) {
 };
 userSchema.statics.findUserByUserId = function (userId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield this.findOne({ userId });
+        const queryFieldFilter = '-_id -password -orders';
+        const result = yield exports.userSchemaModel
+            .findOne({ userId })
+            .select(queryFieldFilter);
         if (!result)
             throw new Error('User not found!');
-        return result;
-    });
-};
-userSchema.statics.updateUserByUserId = function (userId, updateData) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const result = yield this.updateOne({ userId }, updateData);
-        console.log(result);
         return result;
     });
 };

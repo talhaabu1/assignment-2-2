@@ -15,23 +15,25 @@ const getAllUsersIntoDB = async () => {
 };
 
 const getSingleUsersIntoDB = async (userId: string) => {
-  await userSchemaModel.findUserByUserId(userId);
-  const queryFieldFilter = '-_id -password -orders';
-  const result = await userSchemaModel
-    .findOne({ userId })
-    .select(queryFieldFilter);
+  const result = await userSchemaModel.findUserByUserId(userId);
   return result;
 };
 
 const updateUserIntoDB = async (userId: string, updateData: TUser) => {
   await userSchemaModel.isUserExist(userId);
+  const queryFieldFilter = '-password -_id -orders';
   const dataToHash = await userSchemaModel.passwordHashing(updateData);
-  const result = await userSchemaModel.updateUserByUserId(userId, dataToHash);
+  console.log({ userId });
+  const result = await userSchemaModel
+    .findOneAndUpdate({ userId }, dataToHash, {
+      returnDocument: 'after',
+    })
+    .select(queryFieldFilter);
   return result;
 };
 
 const userDeleteIntoDB = async (userId: string) => {
-  await userSchemaModel.findUserByUserId(userId);
+  await userSchemaModel.isUserExist(userId);
   const result = await userSchemaModel.deleteOne({ userId });
   return result;
 };

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userControolers = void 0;
 const user_service_1 = require("./user.service");
 const user_validationWithJoi_1 = __importDefault(require("./user.validationWithJoi"));
+// createuser function
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const value = yield user_validationWithJoi_1.default.validateAsync(req.body);
@@ -38,6 +39,7 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         //? response error send ⤴
     }
 });
+// getAllusers function
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield user_service_1.userServices.getAllUsersIntoDB();
@@ -59,6 +61,7 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         //? response error send ⤴
     }
 });
+// getSingleUser function
 const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
@@ -85,6 +88,7 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         //? response error send ⤴
     }
 });
+// updateUser function
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
@@ -111,6 +115,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         //? response error send ⤴
     }
 });
+// deleteUser function
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
