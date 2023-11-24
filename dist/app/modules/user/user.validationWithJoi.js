@@ -23,15 +23,15 @@ const joiUserOrdersSchema = joi_1.default.object({
 });
 // joiUserSchema object
 const joiUserSchema = joi_1.default.object({
-    userId: joi_1.default.string().required(),
+    userId: joi_1.default.number().required(),
     username: joi_1.default.string().required(),
     password: joi_1.default.string().required(),
     fullName: joiUserNameSchema.required(),
     age: joi_1.default.number().required(),
-    email: joi_1.default.string().required(),
+    email: joi_1.default.string().email().required(),
     isActive: joi_1.default.boolean().required(),
-    hobbies: joi_1.default.array().items(joi_1.default.string()).required(),
+    hobbies: joi_1.default.array().items(joi_1.default.string().min(1).required()).required(),
     address: joiUserAddressSchema.required(),
-    orders: joi_1.default.array().items(joiUserOrdersSchema).required(),
+    orders: joi_1.default.array().items(joiUserOrdersSchema.min(1).required()),
 });
 exports.default = joiUserSchema;

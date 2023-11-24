@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 // user name interface
 export interface TUserName {
   firstName: string;
@@ -17,7 +19,7 @@ export interface TUserOrders {
 }
 // user interface
 export interface TUser {
-  userId: string;
+  userId: Number;
   username: string;
   password: string;
   fullName: TUserName;
@@ -26,5 +28,10 @@ export interface TUser {
   isActive: boolean;
   hobbies: string[];
   address: TUserAddress;
-  orders: TUserAddress[];
+  orders?: TUserAddress[];
+}
+// static methods interface
+export interface TUserModel extends Model<TUser> {
+  passwordHashing(data: TUser): Promise<TUser>;
+  findUserByUserId(userId: string): Promise<TUser | null>;
 }
