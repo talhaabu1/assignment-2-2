@@ -75,8 +75,7 @@ const getSingleUser = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const value = await joiUserSchema.validateAsync(req.body);
-    const result = await userServices.updateUserIntoDB(userId, value);
+    const result = await userServices.updateUserIntoDB(userId, req.body);
     //? response success send ⤵
     res.status(200).json({
       success: true,

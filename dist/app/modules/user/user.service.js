@@ -42,7 +42,7 @@ const getSingleUsersIntoDB = (userId) => __awaiter(void 0, void 0, void 0, funct
     return result;
 });
 const updateUserIntoDB = (userId, updateData) => __awaiter(void 0, void 0, void 0, function* () {
-    yield user_model_1.userSchemaModel.findUserByUserId(userId);
+    yield user_model_1.userSchemaModel.isUserExist(userId);
     const dataToHash = yield user_model_1.userSchemaModel.passwordHashing(updateData);
     const result = yield user_model_1.userSchemaModel.updateUserByUserId(userId, dataToHash);
     return result;

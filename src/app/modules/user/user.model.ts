@@ -45,6 +45,7 @@ const userSchema = new Schema<TUser, TUserModel>(
 //? schema methods ⤵
 userSchema.statics.passwordHashing = async function (data) {
   let { password } = data;
+  if (!password) return data;
   const hashedPassword = await bcrypt.hash(
     password,
     Number(config.salt_rounds),
@@ -53,8 +54,7 @@ userSchema.statics.passwordHashing = async function (data) {
   return newData;
 };
 userSchema.statics.findUserByUserId = async function (userId) {
-  const queryFieldFilter = '-_id -password -orders';
-  const result = await this.findOne({ userId }).select(queryFieldFilter);
+  const result = await this.findOne({ userId });
   if (!result) throw new Error('User not found!');
   return result;
 };
@@ -62,6 +62,11 @@ userSchema.statics.updateUserByUserId = async function (userId, updateData) {
   const result = await this.updateOne({ userId }, updateData);
   console.log(result);
   return result;
+};
+userSchema.statics.isUserExist = async function (userId) {
+  const exist = await this.findOne({ userId });
+  if (!exist) throw new Error('User not found!');
+  return;
 };
 //? schema methods ⤴
 

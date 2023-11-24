@@ -24,7 +24,7 @@ const getSingleUsersIntoDB = async (userId: string) => {
 };
 
 const updateUserIntoDB = async (userId: string, updateData: TUser) => {
-  await userSchemaModel.findUserByUserId(userId);
+  await userSchemaModel.isUserExist(userId);
   const dataToHash = await userSchemaModel.passwordHashing(updateData);
   const result = await userSchemaModel.updateUserByUserId(userId, dataToHash);
   return result;

@@ -50,6 +50,8 @@ const userSchema = new mongoose_1.Schema({
 userSchema.statics.passwordHashing = function (data) {
     return __awaiter(this, void 0, void 0, function* () {
         let { password } = data;
+        if (!password)
+            return data;
         const hashedPassword = yield bcrypt_1.default.hash(password, Number(config_1.default.salt_rounds));
         const newData = Object.assign(Object.assign({}, data), { password: hashedPassword });
         return newData;
@@ -57,8 +59,7 @@ userSchema.statics.passwordHashing = function (data) {
 };
 userSchema.statics.findUserByUserId = function (userId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const queryFieldFilter = '-_id -password -orders';
-        const result = yield this.findOne({ userId }).select(queryFieldFilter);
+        const result = yield this.findOne({ userId });
         if (!result)
             throw new Error('User not found!');
         return result;
@@ -69,6 +70,14 @@ userSchema.statics.updateUserByUserId = function (userId, updateData) {
         const result = yield this.updateOne({ userId }, updateData);
         console.log(result);
         return result;
+    });
+};
+userSchema.statics.isUserExist = function (userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const exist = yield this.findOne({ userId });
+        if (!exist)
+            throw new Error('User not found!');
+        return;
     });
 };
 //? schema methods ⤴

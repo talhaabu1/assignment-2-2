@@ -88,8 +88,7 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
-        const value = yield user_validationWithJoi_1.default.validateAsync(req.body);
-        const result = yield user_service_1.userServices.updateUserIntoDB(userId, value);
+        const result = yield user_service_1.userServices.updateUserIntoDB(userId, req.body);
         //? response success send ⤵
         res.status(200).json({
             success: true,
