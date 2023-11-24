@@ -45,7 +45,7 @@ const userSchema = new mongoose_1.Schema({
     hobbies: { type: [String], required: true },
     address: { type: addressSchema, required: true },
     orders: { type: [ordersSchema] },
-});
+}, { versionKey: false });
 //? schema methods ⤵
 userSchema.statics.passwordHashing = function (data) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -57,27 +57,18 @@ userSchema.statics.passwordHashing = function (data) {
 };
 userSchema.statics.findUserByUserId = function (userId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield this.findOne({ userId });
+        const queryFieldFilter = '-_id -password -orders';
+        const result = yield this.findOne({ userId }).select(queryFieldFilter);
         if (!result)
             throw new Error('User not found!');
-        const newUser = {
-            userId: result === null || result === void 0 ? void 0 : result.userId,
-            username: result === null || result === void 0 ? void 0 : result.username,
-            fullName: {
-                firstName: result === null || result === void 0 ? void 0 : result.fullName.firstName,
-                lastName: result === null || result === void 0 ? void 0 : result.fullName.lastName,
-            },
-            age: result === null || result === void 0 ? void 0 : result.age,
-            email: result === null || result === void 0 ? void 0 : result.email,
-            isActive: result === null || result === void 0 ? void 0 : result.isActive,
-            hobbies: result === null || result === void 0 ? void 0 : result.hobbies,
-            address: {
-                street: result === null || result === void 0 ? void 0 : result.address.street,
-                city: result === null || result === void 0 ? void 0 : result.address.city,
-                country: result === null || result === void 0 ? void 0 : result.address.country,
-            },
-        };
-        return newUser;
+        return result;
+    });
+};
+userSchema.statics.updateUserByUserId = function (userId, updateData) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const result = yield this.updateOne({ userId }, updateData);
+        console.log(result);
+        return result;
     });
 };
 //? schema methods ⤴

@@ -40,8 +40,7 @@ const getAllUsers = async (req: Request, res: Response) => {
     //? response error send ⤵
     res.status(500).json({
       success: false,
-      message: 'User get not successfully!',
-      errorMassage: (err as Error).message,
+      message: (err as Error).message || 'User get not successfully!',
     });
     //? response error send ⤴
   }
@@ -66,11 +65,43 @@ const getSingleUser = async (req: Request, res: Response) => {
       message: 'User not found',
       error: {
         code: 404,
-        description: 'User not found!',
+        description: (err as Error).message,
       },
     });
     //? response error send ⤴
   }
 };
 
-export const userControolers = { createUser, getAllUsers, getSingleUser };
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const value = await joiUserSchema.validateAsync(req.body);
+    const result = await userServices.updateUserIntoDB(userId, value);
+    //? response success send ⤵
+    res.status(200).json({
+      success: true,
+      message: 'Users Updated successfully!',
+      data: result,
+    });
+    //? response success send ⤴
+  } catch (err) {
+    console.log(err);
+    //? response error send ⤵
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: (err as Error).message,
+      },
+    });
+    //? response error send ⤴
+  }
+};
+
+export const userControolers = {
+  createUser,
+  getAllUsers,
+  getSingleUser,
+  updateUser,
+};

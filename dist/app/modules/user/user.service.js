@@ -24,21 +24,28 @@ exports.userServices = void 0;
 const user_model_1 = require("./user.model");
 const createUserIntoDB = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     const dataToHash = yield user_model_1.userSchemaModel.passwordHashing(userData);
-    yield user_model_1.userSchemaModel.create(dataToHash);
-    const { password } = dataToHash, newData = __rest(dataToHash, ["password"]);
+    const result = yield user_model_1.userSchemaModel.create(dataToHash);
+    const _a = result.toObject(), { password, orders, _id } = _a, newData = __rest(_a, ["password", "orders", "_id"]);
     return newData;
 });
 const getAllUsersIntoDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const queryFileterField = 'username fullName age email address -_id';
-    const result = yield user_model_1.userSchemaModel.find().select(queryFileterField);
+    const queryFieldFilter = 'username fullName age email address -_id';
+    const result = yield user_model_1.userSchemaModel.find().select(queryFieldFilter);
     return result;
 });
 const getSingleUsersIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.userSchemaModel.findUserByUserId(userId);
     return result;
 });
+const updateUserIntoDB = (userId, updateData) => __awaiter(void 0, void 0, void 0, function* () {
+    yield user_model_1.userSchemaModel.findUserByUserId(userId);
+    const dataToHash = yield user_model_1.userSchemaModel.passwordHashing(updateData);
+    const result = yield user_model_1.userSchemaModel.updateUserByUserId(userId, dataToHash);
+    return result;
+});
 exports.userServices = {
     createUserIntoDB,
     getAllUsersIntoDB,
     getSingleUsersIntoDB,
+    updateUserIntoDB,
 };

@@ -10,5 +10,6 @@ const router: Router = Router();
 router.get('/api/users', userControolers.getAllUsers);
 router.get('/api/users/:userId', userControolers.getSingleUser);
 router.post('/api/users', userControolers.createUser);
+router.put('/api/users/:userId', userControolers.updateUser);
 
 export default router;

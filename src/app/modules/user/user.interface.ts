@@ -34,4 +34,5 @@ export interface TUser {
 export interface TUserModel extends Model<TUser> {
   passwordHashing(data: TUser): Promise<TUser>;
   findUserByUserId(userId: string): Promise<TUser | null>;
+  updateUserByUserId(userId: string, updateData: TUser): Promise<TUser>;
 }

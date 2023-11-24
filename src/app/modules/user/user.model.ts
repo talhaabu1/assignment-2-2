@@ -26,21 +26,24 @@ const ordersSchema = new Schema<TUserOrders>({
   quantity: { type: Number, required: true },
 });
 // user schema
-const userSchema = new Schema<TUser, TUserModel>({
-  userId: { type: Number, required: true, unique: true },
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true, trim: true },
-  fullName: { type: nameSchema, required: true },
-  age: { type: Number, required: true },
-  email: { type: String, required: true },
-  isActive: { type: Boolean, required: true },
-  hobbies: { type: [String], required: true },
-  address: { type: addressSchema, required: true },
-  orders: { type: [ordersSchema] },
-});
+const userSchema = new Schema<TUser, TUserModel>(
+  {
+    userId: { type: Number, required: true, unique: true },
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true, trim: true },
+    fullName: { type: nameSchema, required: true },
+    age: { type: Number, required: true },
+    email: { type: String, required: true },
+    isActive: { type: Boolean, required: true },
+    hobbies: { type: [String], required: true },
+    address: { type: addressSchema, required: true },
+    orders: { type: [ordersSchema] },
+  },
+  { versionKey: false },
+);
 
 //? schema methods ⤵
-userSchema.statics.passwordHashing = async function (data: TUser) {
+userSchema.statics.passwordHashing = async function (data) {
   let { password } = data;
   const hashedPassword = await bcrypt.hash(
     password,
@@ -49,27 +52,16 @@ userSchema.statics.passwordHashing = async function (data: TUser) {
   const newData = { ...data, password: hashedPassword };
   return newData;
 };
-userSchema.statics.findUserByUserId = async function (userId: string) {
-  const result = await this.findOne({ userId });
+userSchema.statics.findUserByUserId = async function (userId) {
+  const queryFieldFilter = '-_id -password -orders';
+  const result = await this.findOne({ userId }).select(queryFieldFilter);
   if (!result) throw new Error('User not found!');
-  const newUser = {
-    userId: result?.userId,
-    username: result?.username,
-    fullName: {
-      firstName: result?.fullName.firstName,
-      lastName: result?.fullName.lastName,
-    },
-    age: result?.age,
-    email: result?.email,
-    isActive: result?.isActive,
-    hobbies: result?.hobbies,
-    address: {
-      street: result?.address.street,
-      city: result?.address.city,
-      country: result?.address.country,
-    },
-  };
-  return newUser;
+  return result;
+};
+userSchema.statics.updateUserByUserId = async function (userId, updateData) {
+  const result = await this.updateOne({ userId }, updateData);
+  console.log(result);
+  return result;
 };
 //? schema methods ⤴
 

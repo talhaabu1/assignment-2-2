@@ -54,8 +54,7 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         //? response error send ⤵
         res.status(500).json({
             success: false,
-            message: 'User get not successfully!',
-            errorMassage: err.message,
+            message: err.message || 'User get not successfully!',
         });
         //? response error send ⤴
     }
@@ -80,10 +79,42 @@ const getSingleUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             message: 'User not found',
             error: {
                 code: 404,
-                description: 'User not found!',
+                description: err.message,
             },
         });
         //? response error send ⤴
     }
 });
-exports.userControolers = { createUser, getAllUsers, getSingleUser };
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId } = req.params;
+        const value = yield user_validationWithJoi_1.default.validateAsync(req.body);
+        const result = yield user_service_1.userServices.updateUserIntoDB(userId, value);
+        //? response success send ⤵
+        res.status(200).json({
+            success: true,
+            message: 'Users Updated successfully!',
+            data: result,
+        });
+        //? response success send ⤴
+    }
+    catch (err) {
+        console.log(err);
+        //? response error send ⤵
+        res.status(500).json({
+            success: false,
+            message: 'User not found',
+            error: {
+                code: 404,
+                description: err.message,
+            },
+        });
+        //? response error send ⤴
+    }
+});
+exports.userControolers = {
+    createUser,
+    getAllUsers,
+    getSingleUser,
+    updateUser,
+};
