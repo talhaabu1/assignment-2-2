@@ -15,7 +15,11 @@ const getAllUsersIntoDB = async () => {
 };
 
 const getSingleUsersIntoDB = async (userId: string) => {
-  const result = await userSchemaModel.findUserByUserId(userId);
+  await userSchemaModel.findUserByUserId(userId);
+  const queryFieldFilter = '-_id -password -orders';
+  const result = await userSchemaModel
+    .findOne({ userId })
+    .select(queryFieldFilter);
   return result;
 };
 
@@ -26,9 +30,16 @@ const updateUserIntoDB = async (userId: string, updateData: TUser) => {
   return result;
 };
 
+const userDeleteIntoDB = async (userId: string) => {
+  await userSchemaModel.findUserByUserId(userId);
+  const result = await userSchemaModel.deleteOne({ userId });
+  return result;
+};
+
 export const userServices = {
   createUserIntoDB,
   getAllUsersIntoDB,
   getSingleUsersIntoDB,
   updateUserIntoDB,
+  userDeleteIntoDB,
 };

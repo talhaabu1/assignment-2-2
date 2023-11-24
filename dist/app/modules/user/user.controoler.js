@@ -112,9 +112,35 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         //? response error send ⤴
     }
 });
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId } = req.params;
+        const result = yield user_service_1.userServices.userDeleteIntoDB(userId);
+        //? response success send ⤵
+        res.status(200).json({
+            success: true,
+            message: 'Users Deleted successfully!',
+            data: result,
+        });
+        //? response success send ⤴
+    }
+    catch (err) {
+        //? response error send ⤵
+        res.status(500).json({
+            success: false,
+            message: 'User not found',
+            error: {
+                code: 404,
+                description: err.message,
+            },
+        });
+        //? response error send ⤴
+    }
+});
 exports.userControolers = {
     createUser,
     getAllUsers,
     getSingleUser,
     updateUser,
+    deleteUser,
 };

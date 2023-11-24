@@ -99,9 +99,35 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await userServices.userDeleteIntoDB(userId);
+    //? response success send ⤵
+    res.status(200).json({
+      success: true,
+      message: 'Users Deleted successfully!',
+      data: result,
+    });
+    //? response success send ⤴
+  } catch (err) {
+    //? response error send ⤵
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: (err as Error).message,
+      },
+    });
+    //? response error send ⤴
+  }
+};
+
 export const userControolers = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
+  deleteUser,
 };

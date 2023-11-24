@@ -34,7 +34,11 @@ const getAllUsersIntoDB = () => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const getSingleUsersIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.userSchemaModel.findUserByUserId(userId);
+    yield user_model_1.userSchemaModel.findUserByUserId(userId);
+    const queryFieldFilter = '-_id -password -orders';
+    const result = yield user_model_1.userSchemaModel
+        .findOne({ userId })
+        .select(queryFieldFilter);
     return result;
 });
 const updateUserIntoDB = (userId, updateData) => __awaiter(void 0, void 0, void 0, function* () {
@@ -43,9 +47,15 @@ const updateUserIntoDB = (userId, updateData) => __awaiter(void 0, void 0, void 
     const result = yield user_model_1.userSchemaModel.updateUserByUserId(userId, dataToHash);
     return result;
 });
+const userDeleteIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    yield user_model_1.userSchemaModel.findUserByUserId(userId);
+    const result = yield user_model_1.userSchemaModel.deleteOne({ userId });
+    return result;
+});
 exports.userServices = {
     createUserIntoDB,
     getAllUsersIntoDB,
     getSingleUsersIntoDB,
     updateUserIntoDB,
+    userDeleteIntoDB,
 };
