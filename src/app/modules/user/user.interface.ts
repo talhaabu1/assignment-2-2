@@ -28,7 +28,7 @@ export interface TUser {
   isActive: boolean;
   hobbies: string[];
   address: TUserAddress;
-  orders?: TUserAddress[];
+  orders?: TUserOrders[];
 }
 // static methods interface
 export interface TUserModel extends Model<TUser> {

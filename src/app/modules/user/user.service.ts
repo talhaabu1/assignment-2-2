@@ -1,4 +1,4 @@
-import { TUser } from './user.interface';
+import { TUser, TUserOrders } from './user.interface';
 import { userSchemaModel } from './user.model';
 
 const createUserIntoDB = async (userData: TUser) => {
@@ -23,7 +23,6 @@ const updateUserIntoDB = async (userId: string, updateData: TUser) => {
   await userSchemaModel.isUserExist(userId);
   const queryFieldFilter = '-password -_id -orders';
   const dataToHash = await userSchemaModel.passwordHashing(updateData);
-  console.log({ userId });
   const result = await userSchemaModel
     .findOneAndUpdate({ userId }, dataToHash, {
       returnDocument: 'after',
@@ -38,10 +37,20 @@ const userDeleteIntoDB = async (userId: string) => {
   return result;
 };
 
+const addProductUserIntoDB = async (userId: string, product: TUserOrders) => {
+  await userSchemaModel.isUserExist(userId);
+  const result = await userSchemaModel.updateOne(
+    { userId },
+    { $push: { orders: product } },
+  );
+  return result;
+};
+
 export const userServices = {
   createUserIntoDB,
   getAllUsersIntoDB,
   getSingleUsersIntoDB,
   updateUserIntoDB,
   userDeleteIntoDB,
+  addProductUserIntoDB,
 };

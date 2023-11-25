@@ -73,7 +73,6 @@ userSchema.statics.isUserExist = function (userId) {
         const exist = yield this.findOne({ userId });
         if (!exist)
             throw new Error('User not found!');
-        return;
     });
 };
 //? schema methods ⤴

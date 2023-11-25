@@ -41,7 +41,6 @@ const updateUserIntoDB = (userId, updateData) => __awaiter(void 0, void 0, void 
     yield user_model_1.userSchemaModel.isUserExist(userId);
     const queryFieldFilter = '-password -_id -orders';
     const dataToHash = yield user_model_1.userSchemaModel.passwordHashing(updateData);
-    console.log({ userId });
     const result = yield user_model_1.userSchemaModel
         .findOneAndUpdate({ userId }, dataToHash, {
         returnDocument: 'after',
@@ -54,10 +53,16 @@ const userDeleteIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function*
     const result = yield user_model_1.userSchemaModel.deleteOne({ userId });
     return result;
 });
+const addProductUserIntoDB = (userId, product) => __awaiter(void 0, void 0, void 0, function* () {
+    yield user_model_1.userSchemaModel.isUserExist(userId);
+    const result = yield user_model_1.userSchemaModel.updateOne({ userId }, { $push: { orders: product } });
+    return result;
+});
 exports.userServices = {
     createUserIntoDB,
     getAllUsersIntoDB,
     getSingleUsersIntoDB,
     updateUserIntoDB,
     userDeleteIntoDB,
+    addProductUserIntoDB,
 };

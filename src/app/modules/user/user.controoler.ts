@@ -124,10 +124,39 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+const addProductUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await userServices.addProductUserIntoDB(userId, req.body);
+    //? response success send ⤵
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+      data: result,
+    });
+    //? response success send ⤴
+  } catch (err) {
+    //? response error send ⤵
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: (err as Error).message,
+      },
+    });
+    //? response error send ⤴
+  }
+};
+
+const getProductUser = async (req: Request, res: Response) => {};
+
 export const userControolers = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
+  addProductUser,
+  getProductUser,
 };

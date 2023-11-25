@@ -64,7 +64,6 @@ userSchema.statics.findUserByUserId = async function (userId) {
 userSchema.statics.isUserExist = async function (userId) {
   const exist = await this.findOne({ userId });
   if (!exist) throw new Error('User not found!');
-  return;
 };
 //? schema methods ⤴
 

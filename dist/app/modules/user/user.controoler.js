@@ -141,10 +141,38 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         //? response error send ⤴
     }
 });
+const addProductUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId } = req.params;
+        const result = yield user_service_1.userServices.addProductUserIntoDB(userId, req.body);
+        //? response success send ⤵
+        res.status(200).json({
+            success: true,
+            message: 'Order created successfully!',
+            data: result,
+        });
+        //? response success send ⤴
+    }
+    catch (err) {
+        //? response error send ⤵
+        res.status(500).json({
+            success: false,
+            message: 'User not found',
+            error: {
+                code: 404,
+                description: err.message,
+            },
+        });
+        //? response error send ⤴
+    }
+});
+const getProductUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
 exports.userControolers = {
     createUser,
     getAllUsers,
     getSingleUser,
     updateUser,
     deleteUser,
+    addProductUser,
+    getProductUser,
 };

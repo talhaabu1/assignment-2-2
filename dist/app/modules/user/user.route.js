@@ -8,5 +8,6 @@ router.get('/api/users/:userId', user_controoler_1.userControolers.getSingleUser
 router.post('/api/users', user_controoler_1.userControolers.createUser);
 router.put('/api/users/:userId', user_controoler_1.userControolers.updateUser);
 router.delete('/api/users/:userId', user_controoler_1.userControolers.deleteUser);
-router.put('/api/users/:userId/orders', user_controoler_1.userControolers.deleteUser);
+router.get('/api/users/:userId/orders', user_controoler_1.userControolers.addProductUser);
+router.put('/api/users/:userId/orders', user_controoler_1.userControolers.getProductUser);
 exports.default = router;
