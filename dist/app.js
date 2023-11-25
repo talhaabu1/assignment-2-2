@@ -17,7 +17,7 @@ exports.app.use('/api', user_route_1.default);
 //? use express router ⤴
 //? root response route ⤵
 exports.app.get('/', (req, res) => {
-    res.json('Welcome to my server!');
+    res.json('Welcome to my server 🇦🇲 !');
 });
 //? root response route ⤴
 //?  not found error route function ⤵

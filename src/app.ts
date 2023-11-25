@@ -14,7 +14,7 @@ app.use('/api', router);
 
 //? root response route ⤵
 app.get('/', (req: Request, res: Response) => {
-  res.json('Welcome to my server!');
+  res.json('Welcome to my server 🇦🇲 !');
 });
 //? root response route ⤴
 
