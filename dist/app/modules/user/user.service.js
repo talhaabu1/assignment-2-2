@@ -29,27 +29,43 @@ const createUserIntoDB = (userData) => __awaiter(void 0, void 0, void 0, functio
     return newData;
 });
 const getAllUsersIntoDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const queryFieldFilter = 'username fullName age email address -_id';
-    const result = yield user_model_1.userSchemaModel.find().select(queryFieldFilter);
+    const queryFieldFilter = {
+        _id: 0,
+        userId: 0,
+        password: 0,
+        'fullName._id': 0,
+        'address._id': 0,
+        orders: 0,
+    };
+    const result = yield user_model_1.userSchemaModel.find({}, queryFieldFilter);
     return result;
 });
 const getSingleUsersIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     yield user_model_1.userSchemaModel.isUserExist(userId);
-    const queryFieldFilter = '-_id -password -orders';
-    const result = yield user_model_1.userSchemaModel
-        .findOne({ userId })
-        .select(queryFieldFilter);
+    const queryFieldFilter = {
+        _id: 0,
+        password: 0,
+        'fullName._id': 0,
+        'address._id': 0,
+        orders: 0,
+    };
+    const result = yield user_model_1.userSchemaModel.findOne({ userId }, queryFieldFilter);
     return result;
 });
 const updateUserIntoDB = (userId, updateData) => __awaiter(void 0, void 0, void 0, function* () {
     yield user_model_1.userSchemaModel.isUserExist(userId);
-    const queryFieldFilter = '-password -_id -orders';
+    const queryFieldFilter = {
+        _id: 0,
+        password: 0,
+        'fullName._id': 0,
+        'address._id': 0,
+        orders: 0,
+    };
     const dataToHash = yield user_model_1.userSchemaModel.passwordHashing(updateData);
-    const result = yield user_model_1.userSchemaModel
-        .findOneAndUpdate({ userId }, dataToHash, {
+    const result = yield user_model_1.userSchemaModel.findOneAndUpdate({ userId }, dataToHash, {
         returnDocument: 'after',
-    })
-        .select(queryFieldFilter);
+        projection: queryFieldFilter,
+    });
     return result;
 });
 const userDeleteIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -64,10 +80,8 @@ const addProductUserIntoDB = (userId, product) => __awaiter(void 0, void 0, void
 });
 const getProductUserIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     yield user_model_1.userSchemaModel.isUserExist(userId);
-    const queryFieldFilter = 'orders -_id';
-    const result = yield user_model_1.userSchemaModel
-        .findOne({ userId })
-        .select(queryFieldFilter);
+    const queryFieldFilter = { _id: 0, orders: 1 };
+    const result = yield user_model_1.userSchemaModel.findOne({ userId }, queryFieldFilter);
     return result;
 });
 const calculateTotalPriceIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {

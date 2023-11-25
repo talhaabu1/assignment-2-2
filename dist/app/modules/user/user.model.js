@@ -18,17 +18,20 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = __importDefault(require("../../config"));
 // name schema
 const nameSchema = new mongoose_1.Schema({
+    _id: false,
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
 });
 // address schema
 const addressSchema = new mongoose_1.Schema({
+    _id: false,
     street: { type: String, required: true },
     city: { type: String, required: true },
     country: { type: String, required: true },
 });
 // orders schema
 const ordersSchema = new mongoose_1.Schema({
+    _id: false,
     productName: { type: String, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },

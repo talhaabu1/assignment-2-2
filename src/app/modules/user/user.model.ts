@@ -10,17 +10,20 @@ import bcrypt from 'bcrypt';
 import config from '../../config';
 // name schema
 const nameSchema = new Schema<TUserName>({
+  _id: false,
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
 });
 // address schema
 const addressSchema = new Schema<TUserAddress>({
+  _id: false,
   street: { type: String, required: true },
   city: { type: String, required: true },
   country: { type: String, required: true },
 });
 // orders schema
 const ordersSchema = new Schema<TUserOrders>({
+  _id: false,
   productName: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },

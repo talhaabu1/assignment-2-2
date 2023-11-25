@@ -9,29 +9,51 @@ const createUserIntoDB = async (userData: TUser) => {
 };
 
 const getAllUsersIntoDB = async () => {
-  const queryFieldFilter = 'username fullName age email address -_id';
-  const result = await userSchemaModel.find().select(queryFieldFilter);
+  const queryFieldFilter = {
+    _id: 0,
+    userId: 0,
+    password: 0,
+    'fullName._id': 0,
+    'address._id': 0,
+    orders: 0,
+  };
+  const result = await userSchemaModel.find({}, queryFieldFilter);
+
   return result;
 };
 
 const getSingleUsersIntoDB = async (userId: string) => {
   await userSchemaModel.isUserExist(userId);
-  const queryFieldFilter = '-_id -password -orders';
-  const result = await userSchemaModel
-    .findOne({ userId })
-    .select(queryFieldFilter);
+  const queryFieldFilter = {
+    _id: 0,
+    password: 0,
+    'fullName._id': 0,
+    'address._id': 0,
+    orders: 0,
+  };
+  const result = await userSchemaModel.findOne({ userId }, queryFieldFilter);
+
   return result;
 };
 
 const updateUserIntoDB = async (userId: string, updateData: TUser) => {
   await userSchemaModel.isUserExist(userId);
-  const queryFieldFilter = '-password -_id -orders';
+  const queryFieldFilter = {
+    _id: 0,
+    password: 0,
+    'fullName._id': 0,
+    'address._id': 0,
+    orders: 0,
+  };
   const dataToHash = await userSchemaModel.passwordHashing(updateData);
-  const result = await userSchemaModel
-    .findOneAndUpdate({ userId }, dataToHash, {
+  const result = await userSchemaModel.findOneAndUpdate(
+    { userId },
+    dataToHash,
+    {
       returnDocument: 'after',
-    })
-    .select(queryFieldFilter);
+      projection: queryFieldFilter,
+    },
+  );
   return result;
 };
 
@@ -52,10 +74,8 @@ const addProductUserIntoDB = async (userId: string, product: TUserOrders) => {
 
 const getProductUserIntoDB = async (userId: string) => {
   await userSchemaModel.isUserExist(userId);
-  const queryFieldFilter = 'orders -_id';
-  const result = await userSchemaModel
-    .findOne({ userId })
-    .select(queryFieldFilter);
+  const queryFieldFilter = { _id: 0, orders: 1 };
+  const result = await userSchemaModel.findOne({ userId }, queryFieldFilter);
   return result;
 };
 
