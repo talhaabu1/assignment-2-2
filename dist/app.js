@@ -13,8 +13,13 @@ exports.app.use((0, cors_1.default)());
 exports.app.use(express_1.default.json());
 //? use parser call any ⤴
 //? use express router ⤵
-exports.app.use('/', user_route_1.default);
+exports.app.use('/api', user_route_1.default);
 //? use express router ⤴
+//? root response route ⤵
+exports.app.get('/', (req, res) => {
+    res.json('Welcome to my server!');
+});
+//? root response route ⤴
 //?  not found error route function ⤵
 exports.app.use((req, res, next) => {
     res.status(404).send('404 Not Found');

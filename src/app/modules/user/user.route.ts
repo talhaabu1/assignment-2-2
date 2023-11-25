@@ -2,17 +2,18 @@ import { Router } from 'express';
 import { userControolers } from './user.controoler';
 
 const router: Router = Router();
-
-router.get('/api/users', userControolers.getAllUsers);
-router.get('/api/users/:userId', userControolers.getSingleUser);
-router.post('/api/users', userControolers.createUser);
-router.put('/api/users/:userId', userControolers.updateUser);
-router.delete('/api/users/:userId', userControolers.deleteUser);
-router.get('/api/users/:userId/orders', userControolers.getProductUser);
-router.put('/api/users/:userId/orders', userControolers.addProductUser);
+// all routes ⤵
+router.get('/users', userControolers.getAllUsers);
+router.get('/users/:userId', userControolers.getSingleUser);
+router.post('/users', userControolers.createUser);
+router.put('/users/:userId', userControolers.updateUser);
+router.delete('/users/:userId', userControolers.deleteUser);
+router.get('/users/:userId/orders', userControolers.getProductUser);
+router.put('/users/:userId/orders', userControolers.addProductUser);
 router.get(
-  '/api/users/:userId/orders/total-price',
+  '/users/:userId/orders/total-price',
   userControolers.calculateTotalPrice,
 );
+// all routes ⤴
 
 export default router;

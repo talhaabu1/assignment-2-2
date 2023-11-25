@@ -57,17 +57,6 @@ userSchema.statics.passwordHashing = function (data) {
         return newData;
     });
 };
-userSchema.statics.findUserByUserId = function (userId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const queryFieldFilter = '-_id -password -orders';
-        const result = yield exports.userSchemaModel
-            .findOne({ userId })
-            .select(queryFieldFilter);
-        if (!result)
-            throw new Error('User not found!');
-        return result;
-    });
-};
 userSchema.statics.isUserExist = function (userId) {
     return __awaiter(this, void 0, void 0, function* () {
         const exist = yield this.findOne({ userId });

@@ -33,6 +33,5 @@ export interface TUser {
 // static methods interface
 export interface TUserModel extends Model<TUser> {
   passwordHashing(data: TUser): Promise<TUser>;
-  findUserByUserId(userId: string): Promise<TUser | null>;
   isUserExist(userId: string): null;
 }

@@ -53,14 +53,6 @@ userSchema.statics.passwordHashing = async function (data) {
   const newData = { ...data, password: hashedPassword };
   return newData;
 };
-userSchema.statics.findUserByUserId = async function (userId) {
-  const queryFieldFilter = '-_id -password -orders';
-  const result = await userSchemaModel
-    .findOne({ userId })
-    .select(queryFieldFilter);
-  if (!result) throw new Error('User not found!');
-  return result;
-};
 userSchema.statics.isUserExist = async function (userId) {
   const exist = await this.findOne({ userId });
   if (!exist) throw new Error('User not found!');

@@ -123,7 +123,7 @@ const deleteUser = async (req: Request, res: Response) => {
     //? response error send ⤴
   }
 };
-
+// addProductUser function
 const addProductUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -148,7 +148,7 @@ const addProductUser = async (req: Request, res: Response) => {
     //? response error send ⤴
   }
 };
-
+// getProductUser function
 const getProductUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -173,7 +173,7 @@ const getProductUser = async (req: Request, res: Response) => {
     //? response error send ⤴
   }
 };
-
+// calculateTotalPrice function
 const calculateTotalPrice = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;

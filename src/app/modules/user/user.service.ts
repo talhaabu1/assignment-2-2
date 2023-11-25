@@ -15,7 +15,11 @@ const getAllUsersIntoDB = async () => {
 };
 
 const getSingleUsersIntoDB = async (userId: string) => {
-  const result = await userSchemaModel.findUserByUserId(userId);
+  await userSchemaModel.isUserExist(userId);
+  const queryFieldFilter = '-_id -password -orders';
+  const result = await userSchemaModel
+    .findOne({ userId })
+    .select(queryFieldFilter);
   return result;
 };
 

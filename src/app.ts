@@ -9,8 +9,14 @@ app.use(express.json());
 //? use parser call any ⤴
 
 //? use express router ⤵
-app.use('/', router);
+app.use('/api', router);
 //? use express router ⤴
+
+//? root response route ⤵
+app.get('/', (req: Request, res: Response) => {
+  res.json('Welcome to my server!');
+});
+//? root response route ⤴
 
 //?  not found error route function ⤵
 app.use((req: Request, res: Response, next: NextFunction) => {
