@@ -8,7 +8,11 @@ router.get('/api/users/:userId', userControolers.getSingleUser);
 router.post('/api/users', userControolers.createUser);
 router.put('/api/users/:userId', userControolers.updateUser);
 router.delete('/api/users/:userId', userControolers.deleteUser);
-router.get('/api/users/:userId/orders', userControolers.addProductUser);
-router.put('/api/users/:userId/orders', userControolers.getProductUser);
+router.get('/api/users/:userId/orders', userControolers.getProductUser);
+router.put('/api/users/:userId/orders', userControolers.addProductUser);
+router.get(
+  '/api/users/:userId/orders/total-price',
+  userControolers.calculateTotalPrice,
+);
 
 export default router;

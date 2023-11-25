@@ -46,6 +46,41 @@ const addProductUserIntoDB = async (userId: string, product: TUserOrders) => {
   return result;
 };
 
+const getProductUserIntoDB = async (userId: string) => {
+  await userSchemaModel.isUserExist(userId);
+  const queryFieldFilter = 'orders -_id';
+  const result = await userSchemaModel
+    .findOne({ userId })
+    .select(queryFieldFilter);
+  return result;
+};
+
+const calculateTotalPriceIntoDB = async (userId: string) => {
+  await userSchemaModel.isUserExist(userId);
+  const pipeline = [
+    {
+      $match: {
+        userId: Number(userId),
+      },
+    },
+    {
+      $unwind: '$orders',
+    },
+    {
+      $group: {
+        _id: null,
+        totalPrice: {
+          $sum: { $multiply: ['$orders.price', '$orders.quantity'] },
+        },
+      },
+    },
+
+    { $project: { totalPrice: 1, _id: 0 } },
+  ];
+  const result = await userSchemaModel.aggregate(pipeline);
+  return result;
+};
+
 export const userServices = {
   createUserIntoDB,
   getAllUsersIntoDB,
@@ -53,4 +88,6 @@ export const userServices = {
   updateUserIntoDB,
   userDeleteIntoDB,
   addProductUserIntoDB,
+  getProductUserIntoDB,
+  calculateTotalPriceIntoDB,
 };

@@ -58,6 +58,38 @@ const addProductUserIntoDB = (userId, product) => __awaiter(void 0, void 0, void
     const result = yield user_model_1.userSchemaModel.updateOne({ userId }, { $push: { orders: product } });
     return result;
 });
+const getProductUserIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    yield user_model_1.userSchemaModel.isUserExist(userId);
+    const queryFieldFilter = 'orders -_id';
+    const result = yield user_model_1.userSchemaModel
+        .findOne({ userId })
+        .select(queryFieldFilter);
+    return result;
+});
+const calculateTotalPriceIntoDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    yield user_model_1.userSchemaModel.isUserExist(userId);
+    const pipeline = [
+        {
+            $match: {
+                userId: Number(userId),
+            },
+        },
+        {
+            $unwind: '$orders',
+        },
+        {
+            $group: {
+                _id: null,
+                totalPrice: {
+                    $sum: { $multiply: ['$orders.price', '$orders.quantity'] },
+                },
+            },
+        },
+        { $project: { totalPrice: 1, _id: 0 } },
+    ];
+    const result = yield user_model_1.userSchemaModel.aggregate(pipeline);
+    return result;
+});
 exports.userServices = {
     createUserIntoDB,
     getAllUsersIntoDB,
@@ -65,4 +97,6 @@ exports.userServices = {
     updateUserIntoDB,
     userDeleteIntoDB,
     addProductUserIntoDB,
+    getProductUserIntoDB,
+    calculateTotalPriceIntoDB,
 };

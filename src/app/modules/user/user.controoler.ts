@@ -149,7 +149,55 @@ const addProductUser = async (req: Request, res: Response) => {
   }
 };
 
-const getProductUser = async (req: Request, res: Response) => {};
+const getProductUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await userServices.getProductUserIntoDB(userId);
+    //? response success send ⤵
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: result,
+    });
+    //? response success send ⤴
+  } catch (err) {
+    //? response error send ⤵
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: (err as Error).message,
+      },
+    });
+    //? response error send ⤴
+  }
+};
+
+const calculateTotalPrice = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await userServices.calculateTotalPriceIntoDB(userId);
+    //? response success send ⤵
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: result,
+    });
+    //? response success send ⤴
+  } catch (err) {
+    //? response error send ⤵
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: (err as Error).message,
+      },
+    });
+    //? response error send ⤴
+  }
+};
 
 export const userControolers = {
   createUser,
@@ -159,4 +207,5 @@ export const userControolers = {
   deleteUser,
   addProductUser,
   getProductUser,
+  calculateTotalPrice,
 };

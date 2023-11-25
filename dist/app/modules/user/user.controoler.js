@@ -166,7 +166,56 @@ const addProductUser = (req, res) => __awaiter(void 0, void 0, void 0, function*
         //? response error send ⤴
     }
 });
-const getProductUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const getProductUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId } = req.params;
+        const result = yield user_service_1.userServices.getProductUserIntoDB(userId);
+        //? response success send ⤵
+        res.status(200).json({
+            success: true,
+            message: 'Order fetched successfully!',
+            data: result,
+        });
+        //? response success send ⤴
+    }
+    catch (err) {
+        //? response error send ⤵
+        res.status(500).json({
+            success: false,
+            message: 'User not found',
+            error: {
+                code: 404,
+                description: err.message,
+            },
+        });
+        //? response error send ⤴
+    }
+});
+const calculateTotalPrice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId } = req.params;
+        const result = yield user_service_1.userServices.calculateTotalPriceIntoDB(userId);
+        //? response success send ⤵
+        res.status(200).json({
+            success: true,
+            message: 'Total price calculated successfully!',
+            data: result,
+        });
+        //? response success send ⤴
+    }
+    catch (err) {
+        //? response error send ⤵
+        res.status(500).json({
+            success: false,
+            message: 'User not found',
+            error: {
+                code: 404,
+                description: err.message,
+            },
+        });
+        //? response error send ⤴
+    }
+});
 exports.userControolers = {
     createUser,
     getAllUsers,
@@ -175,4 +224,5 @@ exports.userControolers = {
     deleteUser,
     addProductUser,
     getProductUser,
+    calculateTotalPrice,
 };
